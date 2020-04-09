@@ -6,7 +6,9 @@
 <template>
     <div class="home">
         <y-header :bgColor="'#fa3f70'">
-            <search></search>
+            <template v-slot:center>
+                <search></search>
+            </template>
         </y-header>
 
         <div class="banner">

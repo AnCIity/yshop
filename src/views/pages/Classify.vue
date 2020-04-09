@@ -6,7 +6,9 @@
 <template>
     <div class="classify">
         <y-header>
-            <search></search>
+            <template v-slot:center>
+                <search></search>
+            </template>
         </y-header>
         <div class="inner">
             <div class="left">

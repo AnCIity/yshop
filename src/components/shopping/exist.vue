@@ -5,6 +5,13 @@
 
 <template>
     <div class="exist">
+        <div class="inner">
+            <shop-card></shop-card>
+            <shop-card></shop-card>
+            <shop-card></shop-card>
+            <shop-card></shop-card>
+            <shop-card></shop-card>
+        </div>
         <div class="bottom">
             <div class="option">
                 <i class="iconfont icon-all"></i>
@@ -24,22 +31,28 @@
 </template>
 
 <script>
+import shopCard from "@/components/shopping/shop-card";
+
 export default {
-    name: "exist"
+    name: "exist",
+    components: {
+        shopCard
+    }
 };
 </script>
 
-<style lang='stylus' scoped>
+<style lang="stylus" scoped>
 .exist
     position relative
+    padding-bottom 3rem
 
-    // padding-bottom 1rem
     .bottom
-        width 100vw
+        width 7.5rem
         height 1.12rem
         border-top 3px solid #eee
         position fixed
         bottom 1rem
+        background-color white
 
         .option
             float left
@@ -62,18 +75,18 @@ export default {
         .total
             float left
             color #bbb
-            line-height 0.28rem
-            font-size 0.12rem
+            line-height 0.26rem
+            font-size 0.14rem
             text-align center
             margin-left 0.35rem
-            margin-top 0.25rem
+            margin-top 0.3rem
 
         .sittle
             position absolute
             top -0.03rem
             right 0
             width 2.32rem
-            height 1.12rem
+            height 1.15rem
             line-height 1.12rem
             background-color #ff5500
             color white

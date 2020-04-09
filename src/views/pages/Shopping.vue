@@ -5,7 +5,12 @@
 
 <template>
     <div class="shopping">
-        <y-header></y-header>
+        <y-header>
+            <template v-slot:left>
+                <i class="iconfont icon-left"></i>
+            </template>
+            <template v-slot:center>购物车</template>
+        </y-header>
         <component :is="isEmpty?'empty':'exist'"></component>
     </div>
 </template>

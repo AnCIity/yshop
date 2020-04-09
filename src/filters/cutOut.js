@@ -4,9 +4,9 @@
  */
 
 export default (value) => {
-    if (value.length < 16) {
+    if (value.length < 17) {
         return value;
     } else {
-        return value.slice(0, 15) + "...";
+        return value.slice(0, 16) + "...";
     }
 };

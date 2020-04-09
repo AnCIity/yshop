@@ -5,16 +5,17 @@
 
 <template>
     <div class="y-header" :style="bgColor && {backgroundColor: bgColor}">
-        <slot>
-            <div class="left">
+        <div class="left">
+            <slot name="left">
                 <i class="iconfont icon-left"></i>
-            </div>
-            <div class="center">购物车</div>
-            <!-- <div class="right">right</div> -->
-            <!-- .right
-        position absolute
-            right 0.42rem-->
-        </slot>
+            </slot>
+        </div>
+        <div class="center">
+            <slot name="center"></slot>
+        </div>
+        <div class="right">
+            <slot name="right"></slot>
+        </div>
     </div>
 </template>
 
@@ -25,7 +26,7 @@ export default {
 };
 </script>
 
-<style lang='stylus' scoped>
+<style lang='stylus'>
 .y-header
     height 0.9rem
     background-color $primary-color
@@ -33,16 +34,23 @@ export default {
     display flex
     justify-content center
     align-items center
+    color white
 
     .left
         position absolute
-        left 0.42rem
+        left 0.3rem
 
         i
-            color white
-            font-size 0.4rem
+            font-size 0.5rem
 
     .center
-        color white
-        font-size 0.4rem
+        font-size 0.36rem
+
+    .right
+        position absolute
+        right 0.3rem
+        font-size 0.36rem
+
+        i
+            font-size 0.5rem
 </style>

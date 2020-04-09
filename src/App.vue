@@ -2,19 +2,11 @@
     <div id="app">
         <!-- 路由 -->
         <router-view />
-        <!-- 导航 -->
-        <navigation></navigation>
     </div>
 </template>
 
 <script>
-import Navigation from "@/views/navigation";
-
-export default {
-    components: {
-        Navigation
-    }
-};
+export default {};
 </script>
 
 <style lang="stylus">
