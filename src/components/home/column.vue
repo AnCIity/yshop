@@ -7,24 +7,29 @@
     <div class="column">
         <h2>
             <img :src="info.icon" alt />
-            {{info.title}}
+            {{info.name}}
         </h2>
         <div class="content">
-            <slot>
-                <good-card v-for="item in info.goods" :info="item"></good-card>
-            </slot>
+            <template v-if="info.name == '今日疯抢'">
+                <hot-card v-for="item in info.list" :key="item.id" :info="item"></hot-card>
+            </template>
+            <template v-else>
+                <good-card v-for="item in info.list" :key="item.id" :info="item"></good-card>
+            </template>
         </div>
     </div>
 </template>
 
 <script>
-import goodCard from "./column-card";
+import goodCard from "./good-card";
+import hotCard from "./hot-card";
 
 export default {
     name: "Column",
     props: ["info"],
     components: {
-        goodCard
+        goodCard,
+        hotCard
     }
 };
 </script>

@@ -5,7 +5,7 @@
 
 <template>
     <div class="navigation">
-        <router-link to="/" exact-active-class="cut">
+        <router-link to="/home" exact-active-class="cut">
             <i class="iconfont icon-home"></i>
             <span>首页</span>
         </router-link>

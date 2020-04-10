@@ -7,7 +7,7 @@
     <div class="y-header" :style="bgColor && {backgroundColor: bgColor}">
         <div class="left">
             <slot name="left">
-                <i class="iconfont icon-left"></i>
+                <i class="iconfont icon-left" @click="goBack"></i>
             </slot>
         </div>
         <div class="center">
@@ -22,7 +22,12 @@
 <script>
 export default {
     name: "yHeader",
-    props: ["bgColor"]
+    props: ["bgColor"],
+    methods: {
+        goBack() {
+            this.$router.back(-1);
+        }
+    }
 };
 </script>
 

@@ -1,6 +1,6 @@
 /**
  * @author City
- * @description 过滤器出口文件
+ * @description 过滤器注册
  */
 import Vue from "vue";
 

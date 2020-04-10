@@ -22,7 +22,7 @@
         </div>
 
         <div class="info">
-            <h3>点击登录</h3>
+            <router-link to="/login" tag="h3">点击登录</router-link>
             <div class="column">
                 <i class="iconfont icon-like"></i>
                 <p>我的收藏</p>
@@ -77,6 +77,7 @@ export default {
 
 <style lang="stylus" scoped>
 .my
+    padding-bottom 1.2rem
     min-height 100vh
     background-color #f3f3f3
 

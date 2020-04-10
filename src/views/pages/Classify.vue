@@ -6,6 +6,9 @@
 <template>
     <div class="classify">
         <y-header>
+            <template v-slot:left>
+                <span style="display: none"></span>
+            </template>
             <template v-slot:center>
                 <search></search>
             </template>
@@ -14,15 +17,15 @@
             <div class="left">
                 <ul>
                     <li
-                        v-for="item in items"
-                        :key="item.id"
-                        @click="showClass(item)"
-                        :class="{cut: select==item.id}"
-                    >{{ item.title }}</li>
+                        v-for="(item,index) in data"
+                        :key="index"
+                        @click="cutSort(item)"
+                        :class="{cut: select==item.name}"
+                    >{{ item.name }}</li>
                 </ul>
             </div>
             <div class="right">
-                <classCard v-for="(sort, index) in sorts" :key="index" :info="sort"></classCard>
+                <classCard v-for="info in sort" :key="info.id" :info="info"></classCard>
             </div>
         </div>
     </div>
@@ -32,182 +35,23 @@
 import Search from "@/components/common/search";
 import yHeader from "@/components/common/y-header";
 import classCard from "@/components/classify/class-card";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
     name: "Classify",
-    data() {
-        return {
-            select: 0,
-            sorts: [],
-            items: []
-        };
-    },
     components: {
         Search,
         yHeader,
         classCard
     },
+    computed: {
+        ...mapGetters("classify", ["data", "sort", "select"])
+    },
     methods: {
-        showClass(item) {
-            this.select = item.id;
-            this.sorts = item.sorts;
-        }
+        ...mapActions("classify", ["getData", "cutSort"])
     },
     mounted() {
-        // 数据接口处理
-        this.items = [
-            {
-                id: 0,
-                title: "母婴专区",
-                sorts: [
-                    {
-                        title: "奶粉0",
-                        img: require("@/assets/images/classifg/class.png")
-                    },
-                    {
-                        title: "奶粉",
-                        img: require("@/assets/images/classifg/class.png")
-                    },
-                    {
-                        title: "奶粉",
-                        img: require("@/assets/images/classifg/class.png")
-                    },
-                    {
-                        title: "奶粉",
-                        img: require("@/assets/images/classifg/class.png")
-                    },
-                    {
-                        title: "奶粉",
-                        img: require("@/assets/images/classifg/class.png")
-                    },
-                    {
-                        title: "奶粉0",
-                        img: require("@/assets/images/classifg/class.png")
-                    },
-                    {
-                        title: "奶粉",
-                        img: require("@/assets/images/classifg/class.png")
-                    },
-                    {
-                        title: "奶粉",
-                        img: require("@/assets/images/classifg/class.png")
-                    },
-                    {
-                        title: "奶粉",
-                        img: require("@/assets/images/classifg/class.png")
-                    },
-                    {
-                        title: "奶粉",
-                        img: require("@/assets/images/classifg/class.png")
-                    }
-                ]
-            },
-            {
-                id: 1,
-                title: "美妆护肤",
-                sorts: [
-                    {
-                        title: "奶粉1",
-                        img: require("@/assets/images/classifg/class.png")
-                    },
-                    {
-                        title: "奶粉",
-                        img: require("@/assets/images/classifg/class.png")
-                    },
-                    {
-                        title: "奶粉",
-                        img: require("@/assets/images/classifg/class.png")
-                    },
-                    {
-                        title: "奶粉",
-                        img: require("@/assets/images/classifg/class.png")
-                    },
-                    {
-                        title: "奶粉",
-                        img: require("@/assets/images/classifg/class.png")
-                    }
-                ]
-            },
-            {
-                id: 2,
-                title: "家居生活",
-                sorts: [
-                    {
-                        title: "奶粉2",
-                        img: require("@/assets/images/classifg/class.png")
-                    },
-                    {
-                        title: "奶粉",
-                        img: require("@/assets/images/classifg/class.png")
-                    },
-                    {
-                        title: "奶粉",
-                        img: require("@/assets/images/classifg/class.png")
-                    },
-                    {
-                        title: "奶粉",
-                        img: require("@/assets/images/classifg/class.png")
-                    },
-                    {
-                        title: "奶粉",
-                        img: require("@/assets/images/classifg/class.png")
-                    }
-                ]
-            },
-            {
-                id: 3,
-                title: "食品营养",
-                sorts: [
-                    {
-                        title: "奶粉3",
-                        img: require("@/assets/images/classifg/class.png")
-                    },
-                    {
-                        title: "奶粉",
-                        img: require("@/assets/images/classifg/class.png")
-                    },
-                    {
-                        title: "奶粉",
-                        img: require("@/assets/images/classifg/class.png")
-                    },
-                    {
-                        title: "奶粉",
-                        img: require("@/assets/images/classifg/class.png")
-                    },
-                    {
-                        title: "奶粉",
-                        img: require("@/assets/images/classifg/class.png")
-                    }
-                ]
-            },
-            {
-                id: 4,
-                title: "全球直邮",
-                sorts: [
-                    {
-                        title: "奶粉4",
-                        img: require("@/assets/images/classifg/class.png")
-                    },
-                    {
-                        title: "奶粉",
-                        img: require("@/assets/images/classifg/class.png")
-                    },
-                    {
-                        title: "奶粉",
-                        img: require("@/assets/images/classifg/class.png")
-                    },
-                    {
-                        title: "奶粉",
-                        img: require("@/assets/images/classifg/class.png")
-                    },
-                    {
-                        title: "奶粉",
-                        img: require("@/assets/images/classifg/class.png")
-                    }
-                ]
-            }
-        ];
-        this.showClass(this.items[0]);
+        this.getData();
     }
 };
 </script>

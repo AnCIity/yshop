@@ -4,7 +4,7 @@
  */
 
 const base = {
-    anLink: "/",
+    link: "/",
 };
 
 export default base;

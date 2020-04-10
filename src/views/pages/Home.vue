@@ -1,11 +1,14 @@
-/**
- * @author City
- * @description 首页
+/** 
+ * @author City 
+ * @description 首页 
  */
 
 <template>
     <div class="home">
         <y-header :bgColor="'#fa3f70'">
+            <template v-slot:left>
+                <span style="display: none"></span>
+            </template>
             <template v-slot:center>
                 <search></search>
             </template>
@@ -16,10 +19,7 @@
         </div>
 
         <div class="inner">
-            <column :info="hot">
-                <hot-card v-for="item in hot.goods" :info="item"></hot-card>
-            </column>
-            <column v-for="item in columns" :info="item"></column>
+            <column v-for="item in data" :key="item.name" :info="item"></column>
         </div>
     </div>
 </template>
@@ -27,94 +27,29 @@
 <script>
 import Search from "@/components/common/search";
 import Column from "@/components/home/column";
-import hotCard from "@/components/home/hot-card";
 import yHeader from "@/components/common/y-header";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
     name: "Home",
     data() {
         return {
-            hot: {
-                title: "今日疯抢",
-                icon: require("@/assets/images/home/hot.png"),
-                goods: [
-                    {
-                        img: require("@/assets/images/home/goods.png"),
-                        title: "测试商品名称测试测试测试ces测试撒大大大叔的",
-                        price: 158.0,
-                        cost: 199.0
-                    },
-                    {
-                        img: require("@/assets/images/home/goods.png"),
-                        title: "测试商品名称",
-                        price: 158.0,
-                        cost: 199.0
-                    },
-                    {
-                        img: require("@/assets/images/home/goods.png"),
-                        title: "测试商品名称",
-                        price: 158.0,
-                        cost: 199.0
-                    }
-                ]
-            },
-            columns: [
-                {
-                    title: "母婴专区",
-                    icon: require("@/assets/images/home/baby.png"),
-                    goods: [
-                        {
-                            img: require("@/assets/images/home/goods.png"),
-                            title: "测试商品名称",
-                            price: 158.0,
-                            cost: 199.0
-                        },
-                        {
-                            img: require("@/assets/images/home/goods.png"),
-                            title: "测试商品名称",
-                            price: 158.0,
-                            cost: 199.0
-                        },
-                        {
-                            img: require("@/assets/images/home/goods.png"),
-                            title: "测试商品名称",
-                            price: 158.0,
-                            cost: 199.0
-                        }
-                    ]
-                },
-                {
-                    title: "美妆护肤",
-                    icon: require("@/assets/images/home/meizhuang.png"),
-                    goods: [
-                        {
-                            img: require("@/assets/images/home/goods.png"),
-                            title: "测试商品名称",
-                            price: 158.0,
-                            cost: 199.0
-                        },
-                        {
-                            img: require("@/assets/images/home/goods.png"),
-                            title: "测试商品名称",
-                            price: 158.0,
-                            cost: 199.0
-                        },
-                        {
-                            img: require("@/assets/images/home/goods.png"),
-                            title: "测试商品名称",
-                            price: 158.0,
-                            cost: 199.0
-                        }
-                    ]
-                }
-            ]
+            columns: []
         };
     },
     components: {
         Search,
         Column,
-        hotCard,
         yHeader
+    },
+    computed: {
+        ...mapGetters("home", ["data"])
+    },
+    methods: {
+        ...mapActions("home", ["getData"])
+    },
+    mounted() {
+        this.getData();
     }
 };
 </script>

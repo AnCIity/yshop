@@ -6,10 +6,10 @@
 <template>
     <div class="class-card">
         <div class="img">
-            <img :src="info.img" alt />
+            <img :src="info.thumbnail" alt />
         </div>
         <div class="title">
-            <span>{{info.title}}</span>
+            <span>{{info.name}}</span>
         </div>
     </div>
 </template>

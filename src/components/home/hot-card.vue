@@ -6,13 +6,13 @@
 <template>
     <div class="good-card">
         <div class="img">
-            <img :src="info.img" alt />
+            <img :src="info.thumbnail" alt />
         </div>
         <p>
-            ￥{{info.price | fixed}}
-            <span>￥{{info.cost | fixed}}</span>
+            ￥{{info.reduct_price | fixed}}
+            <span>￥{{info.original_price | fixed}}</span>
         </p>
-        <h3>{{info.title | cutOut}}</h3>
+        <h3>{{info.name | cutOut}}</h3>
     </div>
 </template>
 
