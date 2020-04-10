@@ -51,6 +51,7 @@ export default {
             color $primary-color
 
         i
+            position relative
             display block
             font-size 0.4rem
             margin-top 0.1rem

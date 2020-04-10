@@ -11,21 +11,25 @@
             </template>
             <template v-slot:center>个人中心</template>
             <template v-slot:right>
-                <i class="iconfont icon-comment"></i>
+                <i class="iconfont icon-comment">
+                    <span class="num" v-if="isLogin">9+</span>
+                </i>
             </template>
         </y-header>
 
         <div class="banner">
             <div class="photo">
-                <div class="img"></div>
+                <img class="img" src="../../assets/user.jpg" v-if="isLogin" />
+                <div class="img" v-else></div>
             </div>
         </div>
 
         <div class="info">
-            <router-link to="/login" tag="h3">点击登录</router-link>
+            <router-link to="/login" tag="h3">{{ isLogin ? "诺曦惜颜惜诺轩" : "点击登录" }}</router-link>
             <div class="column">
                 <i class="iconfont icon-like"></i>
                 <p>我的收藏</p>
+                <span v-if="isLogin">（5）</span>
             </div>
         </div>
 
@@ -41,11 +45,15 @@
                         <p>待付款</p>
                     </li>
                     <li>
-                        <i class="iconfont icon-send"></i>
+                        <i class="iconfont icon-send">
+                            <span class="num" v-if="isLogin">1</span>
+                        </i>
                         <p>待发货</p>
                     </li>
                     <li>
-                        <i class="iconfont icon-deliver"></i>
+                        <i class="iconfont icon-deliver">
+                            <span class="num" v-if="isLogin">2</span>
+                        </i>
                         <p>待收货</p>
                     </li>
                     <li>
@@ -66,16 +74,33 @@
 
 <script>
 import yHeader from "@/components/common/y-header";
+import { mapGetters } from "vuex";
 
 export default {
     name: "My",
     components: {
         yHeader
+    },
+    computed: {
+        ...mapGetters("user", ["isLogin"])
     }
 };
 </script>
 
 <style lang="stylus" scoped>
+.num
+    position absolute
+    right -0.2rem
+    top -0.1rem
+    background-color red
+    border-radius 50%
+    width 0.35rem
+    height 0.35rem
+    line-height 0.35rem
+    text-align center
+    font-size 0.12rem
+    color white
+
 .my
     padding-bottom 1.2rem
     min-height 100vh
@@ -128,6 +153,10 @@ export default {
                 font-size 0.3rem
                 margin-left 0.2rem
 
+            span
+                font-size 0.3rem
+                margin-left 0.05rem
+
     .order
         margin-top 0.15rem
         background-color #fafafa
@@ -160,6 +189,7 @@ export default {
                     padding-top 0.4rem
 
                     i
+                        position relative
                         font-size 0.7rem
                         color #aaaaaa
 
