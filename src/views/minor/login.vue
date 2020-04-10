@@ -14,16 +14,28 @@
 
         <div class="inner">
             <div class="put">
-                <input type="tel" value placeholder="请输入手机号" v-model="user.phone" />
+                <input
+                    type="tel"
+                    value
+                    placeholder="请输入手机号"
+                    :disabled="isLink"
+                    v-model="user.phone"
+                />
             </div>
             <div class="put">
-                <input type="password" value placeholder="请输入密码" v-model="user.password" />
+                <input
+                    type="password"
+                    value
+                    placeholder="请输入密码"
+                    :disabled="isLink"
+                    v-model="user.password"
+                />
             </div>
             <p>
                 <span>忘记密码</span>
             </p>
             <div class="put">
-                <input type="button" value="登录" @click="callLogin" />
+                <input type="button" value="登录" :disabled="isLink" @click="callLogin" />
             </div>
         </div>
     </div>
@@ -37,7 +49,8 @@ export default {
     name: "Login",
     data() {
         return {
-            user: {}
+            user: {},
+            isLink: false
         };
     },
     components: {
@@ -49,19 +62,24 @@ export default {
     methods: {
         ...mapActions("user", ["login"]),
         async callLogin() {
+            this.isLink = true; // 禁用表单
+
+            // 请求数据
             const msg = await this.login(this.user);
+
             if (this.isLogin) {
+                // 登录成功
                 this.$message({
                     message: msg,
                     type: "success"
                 });
+                // 跳转页面
                 this.$router.push("/my");
             } else {
-                this.$message({
-                    message: msg,
-                    type: "err"
-                });
-                this.user = {};
+                // 登录失败
+                this.isLink = false; // 启用按钮
+                this.$message.error(msg); // 提示错误信息
+                this.user = {}; // 清空表单
             }
         }
     }
@@ -91,6 +109,9 @@ export default {
         font-size 0.3rem
         outline none
         border none
+
+        &[disabled]
+            opacity 0.4
 
         &:not([type=button])
             border-bottom 1px solid #999

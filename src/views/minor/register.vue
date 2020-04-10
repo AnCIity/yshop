@@ -8,23 +8,35 @@
         <y-header>
             <template v-slot:center>注册</template>
             <template v-slot:right>
-                <router-link to="/login" tag="span">注册</router-link>
+                <router-link to="/login" tag="span">登录</router-link>
             </template>
         </y-header>
 
         <div class="inner">
             <div class="put">
-                <input type="tel" value placeholder="请输入手机号" v-model="user.phone" />
+                <input
+                    type="tel"
+                    value
+                    placeholder="请输入手机号"
+                    :disabled="isLink"
+                    v-model="user.phone"
+                />
             </div>
             <div class="put">
-                <input type="password" value placeholder="请输入密码" v-model="user.password" />
+                <input
+                    type="password"
+                    value
+                    placeholder="请输入密码"
+                    :disabled="isLink"
+                    v-model="user.password"
+                />
             </div>
             <div class="put">
-                <input type="text" value placeholder="请输入验证码" />
+                <input type="text" value placeholder="请输入验证码" :disabled="isLink" />
                 <span>点击获取</span>
             </div>
             <div class="put">
-                <input type="button" value="下一步" @click="callRegister" />
+                <input type="button" value="注册" :disabled="isLink" @click="callRegister" />
             </div>
             <div class="tiaokuan">
                 <i
@@ -47,7 +59,8 @@ export default {
         return {
             info: "已注册",
             isDeal: false,
-            user: {}
+            user: {},
+            isLink: false
         };
     },
     components: {
@@ -55,13 +68,29 @@ export default {
     },
     methods: {
         async callRegister() {
-            if (!this.isDeal) return;
+            // 协议
+            if (!this.isDeal) {
+                this.$message("请阅读协议后再次操作！");
+                return;
+            }
 
+            this.isLink = true; // 禁用表单
+
+            // 请求
             const { data: result } = await requestRegister(this.user);
+
             if (result.status === 1) {
+                // 注册成功 跳转
+                this.$message({
+                    message: result.msg,
+                    type: "success"
+                });
                 this.$router.push("/login");
             } else {
-                this.user = {};
+                // 注册失败
+                this.isLink = false; // 启用表单
+                this.$message.error(result.msg); // 提示错误信息
+                this.user = {}; // 清空表单
             }
         }
     }
