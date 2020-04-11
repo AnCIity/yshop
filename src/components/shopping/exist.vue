@@ -6,15 +6,11 @@
 <template>
     <div class="exist">
         <div class="inner">
-            <shop-card></shop-card>
-            <shop-card></shop-card>
-            <shop-card></shop-card>
-            <shop-card></shop-card>
-            <shop-card></shop-card>
+            <shop-card v-for="item in info" :key="item.id" :info="item" :calc="calcTotal"></shop-card>
         </div>
         <div class="bottom">
-            <div class="option">
-                <i class="iconfont icon-all"></i>
+            <div class="option" @click="all">
+                <i :class="['iconfont', 'icon-all',{'cut': isAll}]"></i>
                 <span>全选</span>
             </div>
             <div class="option">
@@ -22,7 +18,7 @@
                 <span>编辑</span>
             </div>
             <div class="total">
-                <span>合计：0.00</span>
+                <span>合计：{{total | fixed}}</span>
                 <p>（不含运费）</p>
             </div>
             <div class="sittle">去结算</div>
@@ -32,11 +28,30 @@
 
 <script>
 import shopCard from "@/components/shopping/shop-card";
+import { mapActions } from "vuex";
 
 export default {
     name: "exist",
+    props: ["info"],
+    data() {
+        return {
+            total: 0,
+            isAll: false
+        };
+    },
     components: {
         shopCard
+    },
+    methods: {
+        ...mapActions("shopping", ["selectAll"]),
+        calcTotal(oldValue, changeValue) {
+            this.total = this.total - oldValue + changeValue;
+        },
+        all() {
+            this.isAll = !this.isAll;
+
+            this.selectAll(this.isAll);
+        }
     }
 };
 </script>

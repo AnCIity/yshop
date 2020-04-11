@@ -8,7 +8,8 @@
         <y-header>
             <template v-slot:center>购物车</template>
         </y-header>
-        <component :is="isEmpty?'empty':'exist'"></component>
+        <empty v-if="data.length == 0"></empty>
+        <exist v-else :info="data"></exist>
     </div>
 </template>
 
@@ -16,6 +17,7 @@
 import yHeader from "@/components/common/y-header";
 import empty from "@/components/shopping/empty";
 import exist from "@/components/shopping/exist";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
     name: "Shopping",
@@ -24,12 +26,15 @@ export default {
         empty,
         exist
     },
-    data() {
-        return {
-            isEmpty: false
-        };
+    computed: {
+        ...mapGetters("shopping", ["data"])
     },
-    methods: {}
+    methods: {
+        ...mapActions("shopping", ["getData"])
+    },
+    mounted() {
+        this.getData();
+    }
 };
 </script>
 

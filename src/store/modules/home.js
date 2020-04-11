@@ -6,6 +6,7 @@
 import { requestHome } from "@/api";
 
 const state = {
+    // 首页数据
     data: []
 };
 
