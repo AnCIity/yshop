@@ -6,7 +6,8 @@
 <template>
     <div class="column">
         <h2>
-            <img :src="info.icon" alt />
+            <!-- <img :src="info.icon" alt /> -->
+            <i :class="['iconfont', info.icon]" :style="info.color"></i>
             {{info.name}}
         </h2>
         <div class="content">
@@ -47,11 +48,18 @@ export default {
             display none
 
     h2
+        height 0.5rem
+        line-height 0.5rem
         font-size 0.36rem
         padding 0.3rem 0
+        display flex
+        align-items center
 
-        img
-            width 0.4rem
-            margin-right 0.1rem
-            vertical-align middle
+        // img
+        // width 0.4rem
+        // margin-right 0.1rem
+        // vertical-align middle
+        i
+            margin-right 0.25rem
+            font-size 0.5rem
 </style>

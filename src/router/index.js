@@ -15,8 +15,8 @@ const routes = [
                 name: "Home",
                 component: () =>
                     import(
-                        /* webpackChunkName: "classify" */ "../views/pages/Home.vue"
-                    ),
+                        /* webpackChunkName: "home" */ "../views/pages/Home.vue"
+                    )
             },
             {
                 path: "/classify",
@@ -27,7 +27,7 @@ const routes = [
                 component: () =>
                     import(
                         /* webpackChunkName: "classify" */ "../views/pages/Classify.vue"
-                    ),
+                    )
             },
             {
                 path: "/shopping",
@@ -35,39 +35,44 @@ const routes = [
                 component: () =>
                     import(
                         /* webpackChunkName: "shopping" */ "../views/pages/Shopping.vue"
-                    ),
+                    )
             },
             {
                 path: "/my",
                 name: "My",
                 component: () =>
-                    import(
-                        /* webpackChunkName: "shopping" */ "../views/pages/My.vue"
-                    ),
-            },
-        ],
+                    import(/* webpackChunkName: "my" */ "../views/pages/My.vue")
+            }
+        ]
+    },
+    {
+        path: "/details/:id",
+        name: "Details",
+        component: () =>
+            import(
+                /* webpackChunkName: "detail" */ "../views/minor/details.vue"
+            ),
+        props: true
     },
     {
         path: "/login",
         name: "Login",
         component: () =>
-            import(
-                /* webpackChunkName: "shopping" */ "../views/minor/login.vue"
-            ),
+            import(/* webpackChunkName: "login" */ "../views/minor/login.vue")
     },
     {
         path: "/register",
         name: "Register",
         component: () =>
             import(
-                /* webpackChunkName: "shopping" */ "../views/minor/register.vue"
-            ),
-    },
+                /* webpackChunkName: "register" */ "../views/minor/register.vue"
+            )
+    }
 ];
 
 const router = new VueRouter({
     mode: "history",
-    routes,
+    routes
 });
 
 export default router;

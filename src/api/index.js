@@ -17,7 +17,7 @@ export const requestClassify = function() {
 };
 
 // 详情
-export const detail = function(id) {
+export const requestDetails = function(id) {
     return axios.get(`${base.link}getDetails`, { params: { pid: id } });
 };
 

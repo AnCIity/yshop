@@ -23,7 +23,7 @@ body
     // text-align: center;
     color #2c3e50
     // 初始属性
-    width 7.5rem
+    width $main-wdith
     margin 0 auto
     min-height 100vh
     background white

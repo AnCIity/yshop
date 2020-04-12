@@ -11,6 +11,7 @@ import home from "./modules/home";
 import classify from "./modules/classify";
 import user from "./modules/user";
 import shopping from "./modules/shopping";
+import details from "./modules/details";
 
 Vue.use(Vuex);
 
@@ -19,6 +20,7 @@ export default new Vuex.Store({
         home,
         classify,
         user,
-        shopping
+        shopping,
+        details
     }
 });

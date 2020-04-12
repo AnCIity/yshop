@@ -6,15 +6,15 @@
 <template>
     <div class="exist">
         <div class="inner">
-            <shop-card v-for="item in info" :key="item.id" :info="item" :calc="calcTotal"></shop-card>
+            <shop-card v-for="item in info" :key="item.id" :info="item"></shop-card>
         </div>
         <div class="bottom">
-            <div class="option" @click="all">
+            <div class="option" @click="selectAll(!isAll)">
                 <i :class="['iconfont', 'icon-all',{'cut': isAll}]"></i>
                 <span>全选</span>
             </div>
-            <div class="option">
-                <i class="iconfont icon-edit"></i>
+            <div class="option" @click="editGood()">
+                <i :class="['iconfont', 'icon-edit',{'cut': isEdit}]"></i>
                 <span>编辑</span>
             </div>
             <div class="total">
@@ -28,30 +28,19 @@
 
 <script>
 import shopCard from "@/components/shopping/shop-card";
-import { mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
     name: "exist",
     props: ["info"],
-    data() {
-        return {
-            total: 0,
-            isAll: false
-        };
-    },
     components: {
         shopCard
     },
+    computed: {
+        ...mapGetters("shopping", ["isAll", "isEdit", "total"])
+    },
     methods: {
-        ...mapActions("shopping", ["selectAll"]),
-        calcTotal(oldValue, changeValue) {
-            this.total = this.total - oldValue + changeValue;
-        },
-        all() {
-            this.isAll = !this.isAll;
-
-            this.selectAll(this.isAll);
-        }
+        ...mapActions("shopping", ["selectAll", "editGood"])
     }
 };
 </script>

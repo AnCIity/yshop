@@ -56,7 +56,6 @@ export default {
 
 <style lang="stylus" scoped>
 .home
-    width 100%
     overflow hidden
     padding-bottom 1.2rem
 

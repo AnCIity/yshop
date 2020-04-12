@@ -29,8 +29,8 @@ const mutations = {
 const actions = {
     // 请求分类数据
     getData({ commit, state }) {
+        if (state.data.length > 0) return;
         requestClassify().then(res => {
-            if (state.data.length > 0) return;
             commit("setData", res.data.data);
 
             // 初始化分类内容

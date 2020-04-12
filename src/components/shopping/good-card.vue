@@ -6,7 +6,11 @@
 <template>
     <div class="good-card">
         <div class="left">
-            <i :class="['iconfont', 'icon-all', {'cut': isSelect}]" @click="change"></i>
+            <i
+                :class="['iconfont', 'icon-all', {'cut': this.info.select}]"
+                @click="change"
+                v-show="!info.edit"
+            ></i>
         </div>
         <div class="center">
             <div class="img">
@@ -25,66 +29,58 @@
             </div>
         </div>
         <div class="right">￥{{info.price}}</div>
-        <div class="delete">删除</div>
+        <div class="delete" v-show="info.edit" @click="deleteG">删除</div>
     </div>
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
+
 export default {
     name: "goodCard",
-    props: {
-        info: {
-            type: Object
-        },
-        calc: {
-            type: Function
-        }
-    },
+    props: ["info"],
     data() {
         return {
-            num: this.info.num
+            id: {
+                sid: this.info.sid,
+                gid: this.info.id
+            }
         };
     },
     computed: {
-        isSelect() {
-            // 计算选中状态
-            return this.info.select;
-        },
-        total() {
-            // 计算总价
-            return this.info.price * this.num;
+        num() {
+            // 用于数量变化监听
+            return this.info.num;
         }
     },
     methods: {
+        ...mapActions("shopping", ["selectGood", "deleteGood", "calcTotal"]),
         sub() {
-            if (this.num <= 1) return;
-
-            this.num -= 1;
+            // 减少 当大于 1 时
+            if (this.info.num > 1) this.info.num -= 1;
         },
         add() {
-            this.num += 1;
+            // 增加
+            this.info.num += 1;
         },
         change() {
             // 修改选中状态
-            this.info.select = !this.info.select;
+            this.selectGood(this.id);
+            // 重新计算选中总价
+            this.calcTotal();
+        },
+        deleteG() {
+            // 删除商品
+            this.deleteGood(this.id);
+            // 重新计算选中总价
+            this.calcTotal();
+            this.$message({ message: "删除成功", type: "success" });
         }
     },
     watch: {
-        isSelect(value) {
-            // 根据选中状态修改数据
-            if (value) {
-                this.calc(0, this.total);
-            } else {
-                this.calc(this.total, 0);
-            }
-        },
-        num(newValue, oldValue) {
-            // 选中状态下同步
-            if (this.isSelect)
-                this.calc(
-                    this.info.price * oldValue,
-                    this.info.price * newValue
-                );
+        num() {
+            // 重新计算选中总价
+            this.calcTotal();
         }
     }
 };
@@ -160,12 +156,12 @@ export default {
     margin-left 0.1rem
 
 .delete
-    display none
     width 1rem
     height 1.6rem
     line-height 1.6rem
     text-align center
     background-color $primary-color
     color white
-    margin-left 0.48rem
+    margin-left 0.28rem
+    font-size 0.28rem
 </style>

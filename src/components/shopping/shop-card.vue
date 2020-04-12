@@ -10,7 +10,7 @@
             <span>{{ info.name }}</span>
         </h3>
         <div class="content">
-            <good-card v-for="item in info.list" :key="item.id" :info="item" :calc="calc"></good-card>
+            <good-card v-for="item in info.list" :key="item.id" :info="item"></good-card>
         </div>
     </div>
 </template>
@@ -20,14 +20,7 @@ import goodCard from "./good-card";
 
 export default {
     name: "shopCard",
-    props: {
-        info: {
-            type: Object
-        },
-        calc: {
-            type: Function
-        }
-    },
+    props: ["info"],
     components: {
         goodCard
     }
