@@ -5,14 +5,16 @@
 
 <template>
     <div class="good-card">
-        <div class="img">
-            <img :src="info.thumbnail" alt />
-        </div>
-        <h3>{{info.name | cutOut}}</h3>
-        <p>
-            ￥{{info.reduct_price | fixed}}
-            <span>￥{{info.original_price | fixed}}</span>
-        </p>
+        <router-link :to="{ name: 'Details', params: { id: info.id }}">
+            <div class="img">
+                <img :src="info.thumbnail" alt />
+            </div>
+            <h3>{{info.name | cutOut}}</h3>
+            <p>
+                ￥{{info.reduct_price | fixed}}
+                <span>￥{{info.original_price | fixed}}</span>
+            </p>
+        </router-link>
     </div>
 </template>
 

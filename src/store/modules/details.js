@@ -19,7 +19,8 @@ const mutations = {
 const actions = {
     // 请求详情数据
     getData({ commit, state }, id) {
-        if (state.data.length > 0) return;
+        // 若数据重复 无需请求
+        if (state.data.pid == id) return;
 
         requestDetails(id).then(res => {
             commit("setData", res.data.data);
