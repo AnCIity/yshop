@@ -23,7 +23,7 @@
                 </div>
                 <div class="chunk-bottom">
                     <input class="sub" type="button" value="-" @click="sub" />
-                    <input class="num" type="text" v-model="num" />
+                    <input class="num" type="text" v-model="info.num" />
                     <input class="add" type="button" value="+" @click="add" />
                 </div>
             </div>

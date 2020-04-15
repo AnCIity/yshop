@@ -136,10 +136,14 @@
                     </div>
                 </div>
                 <div class="buy-parmas">
-                    <div class="parmas-chunk" v-for="item in data.buySelect">
+                    <div class="parmas-chunk" v-for="(item,one) in data.buySelect">
                         <div class="chunk-title">{{item.name}}</div>
                         <div class="chunk-content">
-                            <i v-for="(i, index) in item.list">{{i}}</i>
+                            <i
+                                v-for="(i, two) in item.list"
+                                @click="setSelect({one, two})"
+                                :class="[item.index == two ? 'cut' : '']"
+                            >{{i}}</i>
                         </div>
                     </div>
                 </div>
@@ -168,7 +172,7 @@ export default {
         ...mapGetters("details", ["data"])
     },
     methods: {
-        ...mapActions("details", ["getData"]),
+        ...mapActions("details", ["getData", "select"]),
         goShop() {
             // 跳转购物车
             this.$router.push("/shopping");
@@ -190,6 +194,10 @@ export default {
             // 切换评论
             this.commentIndex = index;
             this.comments = this.data.buyerReviews[index];
+        },
+        setSelect(value) {
+            this.select(value);
+            this.$forceUpdate();
         }
     },
     mounted() {
@@ -450,7 +458,7 @@ export default {
         z-index 1001
         height 0.99rem
         line-height 0.99rem
-        width 100%
+        width 7.5rem
         border-top 1px solid #dddddd
         display flex
 
@@ -475,9 +483,9 @@ export default {
     .popup
         position fixed
         top 0
-        left 0
+        left calc(((100% - 7.5rem) / 2))
         z-index 1000
-        width 100vw
+        width 7.5rem
         height 100vh
         background rgba(0, 0, 0, 0.4)
 
@@ -485,7 +493,7 @@ export default {
             position absolute
             bottom 1rem
             background white
-            width calc(100% - 0.6rem)
+            width 6.9rem
             padding 0 0.3rem 0.2rem
 
             .buy-info

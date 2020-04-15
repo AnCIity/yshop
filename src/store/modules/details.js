@@ -13,6 +13,9 @@ const state = {
 const mutations = {
     setData(state, value) {
         state.data = value;
+    },
+    select(state, { one, two }) {
+        state.data.buySelect[one].index = two;
     }
 };
 
@@ -25,6 +28,9 @@ const actions = {
         requestDetails(id).then(res => {
             commit("setData", res.data.data);
         });
+    },
+    select({ commit }, value) {
+        commit("select", value);
     }
 };
 
