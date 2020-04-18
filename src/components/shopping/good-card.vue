@@ -14,7 +14,9 @@
         </div>
         <div class="center">
             <div class="img">
-                <img :src="info.img" width="80" />
+                <router-link :to="{ name: 'Details', params: { id: info.id }}">
+                    <img :src="info.img" width="80" />
+                </router-link>
             </div>
             <div class="chunk">
                 <div class="chunk-top">

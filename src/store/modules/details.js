@@ -14,6 +14,7 @@ const mutations = {
     setData(state, value) {
         state.data = value;
     },
+    // update buySelect
     select(state, { one, two }) {
         state.data.buySelect[one].index = two;
     }
@@ -24,11 +25,13 @@ const actions = {
     getData({ commit, state }, id) {
         // 若数据重复 无需请求
         if (state.data.pid == id) return;
+        state.data = null;
 
         requestDetails(id).then(res => {
             commit("setData", res.data.data);
         });
     },
+    // buySelect
     select({ commit }, value) {
         commit("select", value);
     }

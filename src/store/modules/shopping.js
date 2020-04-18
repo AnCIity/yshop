@@ -13,7 +13,9 @@ const state = {
     // 选中商品价格
     total: 0,
     // 编辑状态
-    isEdit: false
+    isEdit: false,
+    // 初始化
+    isInit: true
 };
 
 const mutations = {
@@ -25,9 +27,9 @@ const mutations = {
                 good.edit = false;
                 state.num++;
             });
-        });
 
-        state.data = value;
+            state.data.push(shop);
+        });
     },
     // 全选商品 反之亦然
     selectAll(state, value) {
@@ -47,23 +49,20 @@ const mutations = {
     },
     // 选中商品
     selectGood(state, { sid, gid }) {
-        state.data.forEach(shop => {
-            if (shop.id == sid) {
-                shop.list.forEach(good => {
-                    if (good.id == gid) {
-                        good.select = !good.select;
-                        // 计算选中数量 以及编辑状态
-                        if (good.select) {
-                            state.selectNum++;
-                            if (state.isEdit) good.edit = true;
-                        } else {
-                            state.selectNum--;
-                            if (state.isEdit) good.edit = false;
-                        }
-                    }
-                });
-            }
-        });
+        let shop = state.data.find(value => value.id === sid);
+        let good = shop.list.find(value => value.id === gid);
+
+        // 修改状态
+        good.select = !good.select;
+
+        // 计算选中数量 以及编辑状态
+        if (good.select) {
+            state.selectNum++;
+            if (state.isEdit) good.edit = true;
+        } else {
+            state.selectNum--;
+            if (state.isEdit) good.edit = false;
+        }
     },
     // 编辑商品 反之亦然
     editGood(state) {
@@ -108,13 +107,42 @@ const mutations = {
                 }
             });
         });
+    },
+    // 加入购物车
+    addShopping(state, info) {
+        // 查询店铺是否存在 存在则返回店铺
+        let shop = state.data.find(value => value.id === 666);
+
+        if (shop) {
+            let good = shop.list.find(value => value.id == info.id);
+            if (good) {
+                good.num++;
+                this.commit("shopping/calcTotal");
+            } else {
+                shop.list.push(info);
+                // 增加商品数量
+                state.num++;
+            }
+        } else {
+            shop = {
+                id: 666,
+                name: "不配拥有店铺的商品",
+                list: [info]
+            };
+
+            state.data.push(shop);
+            // 增加商品数量
+            state.num++;
+        }
     }
 };
 
 const actions = {
     // 请求数据
     getData({ commit, state }) {
-        if (state.data.length > 0) return;
+        if (!state.isInit) return;
+        state.isInit = false;
+
         const arr = [
             {
                 id: 1,
@@ -127,8 +155,7 @@ const actions = {
                         img: require("@/assets/images/classifg/class.png"),
                         num: 1,
                         price: 188,
-                        size: "一件装",
-                        select: false
+                        size: "一件装"
                     }
                 ]
             },
@@ -143,8 +170,7 @@ const actions = {
                         img: require("@/assets/images/classifg/class.png"),
                         num: 1,
                         price: 188,
-                        size: "一件装",
-                        select: false
+                        size: "一件装"
                     },
                     {
                         id: 2342,
@@ -153,8 +179,7 @@ const actions = {
                         img: require("@/assets/images/classifg/class.png"),
                         num: 1,
                         price: 188,
-                        size: "一件装",
-                        select: false
+                        size: "一件装"
                     }
                 ]
             }
@@ -180,6 +205,10 @@ const actions = {
     // 计算
     calcTotal({ commit }) {
         commit("calcTotal");
+    },
+    // 加入购物车
+    addShopping({ commit }, info) {
+        commit("addShopping", info);
     }
 };
 

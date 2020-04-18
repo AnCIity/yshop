@@ -48,7 +48,7 @@
                 </div>
                 <div class="tag">
                     <div class="tag-top">
-                        <em>{{data.allowance * 10}}折</em>
+                        <em>{{(data.allowance * 10).toFixed(1)}}折</em>
                         <em>{{data.isFreeShip ? "包邮" : "不包邮"}}</em>
                     </div>
                     <div class="tag-bottom">
@@ -103,7 +103,7 @@
                 总价：
                 <span>￥0.00</span>
             </p>
-            <div class="buttom-btn" @click="showPopup = true">加入购物车</div>
+            <div class="buttom-btn" @click="add">加入购物车</div>
             <div class="buttom-btn" @click="showPopup = true">立即购买</div>
         </div>
 
@@ -169,10 +169,12 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("details", ["data"])
+        ...mapGetters("details", ["data"]),
+        ...mapGetters("shopping", { shops: "data" })
     },
     methods: {
         ...mapActions("details", ["getData", "select"]),
+        ...mapActions("shopping", ["addShopping"]),
         goShop() {
             // 跳转购物车
             this.$router.push("/shopping");
@@ -196,8 +198,36 @@ export default {
             this.comments = this.data.buyerReviews[index];
         },
         setSelect(value) {
+            // 切换商品属性选项
             this.select(value);
             this.$forceUpdate();
+        },
+        add() {
+            // 加入购物车
+
+            if (this.showPopup) {
+                // 数据整理
+                let info = {
+                    id: this.data.pid,
+                    sid: 666,
+                    name: this.data.name,
+                    img: this.data.swiperImgArr[0],
+                    num: 1,
+                    price: this.data.reduct_price,
+                    size: "一件装",
+                    edit: false,
+                    select: false
+                };
+
+                this.addShopping(info);
+                this.$message({
+                    message: "加入成功",
+                    type: "success"
+                });
+                this.goShop();
+            } else {
+                this.showPopup = true;
+            }
         }
     },
     mounted() {

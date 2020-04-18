@@ -9,7 +9,7 @@
             <shop-card v-for="item in info" :key="item.id" :info="item"></shop-card>
         </div>
         <div class="bottom">
-            <div class="option" @click="selectAll(!isAll)">
+            <div class="option" @click="all">
                 <i :class="['iconfont', 'icon-all',{'cut': isAll}]"></i>
                 <span>全选</span>
             </div>
@@ -40,7 +40,11 @@ export default {
         ...mapGetters("shopping", ["isAll", "isEdit", "total"])
     },
     methods: {
-        ...mapActions("shopping", ["selectAll", "editGood"])
+        ...mapActions("shopping", ["selectAll", "editGood", "calcTotal"]),
+        all() {
+            this.selectAll(!this.isAll);
+            this.calcTotal();
+        }
     }
 };
 </script>
