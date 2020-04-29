@@ -18,6 +18,7 @@
                 <div class="show-content">
                     <img
                         v-for="(img, index) in data.swiperImgArr"
+                        key="index"
                         :src="img"
                         v-show="swiperIndex === index"
                     />
@@ -25,6 +26,7 @@
                 <div class="show-control">
                     <i
                         v-for="(img, index) in data.swiperImgArr"
+                        key="index"
                         @click="swiperIndex = index"
                         :class="{'cut': swiperIndex === index}"
                     ></i>
@@ -53,7 +55,7 @@
                             <em>{{data.isFreeShip ? "包邮" : "不包邮"}}</em>
                         </div>
                         <div class="tag-bottom">
-                            <em v-for="describe in data.describe">{{describe}}</em>
+                            <em v-for="describe in data.describe" key="describe">{{describe}}</em>
                         </div>
                     </div>
                 </div>
@@ -67,7 +69,7 @@
                 </ul>
                 <ul class="sort-content">
                     <li v-show="sortIndex === 0" class="goods-img">
-                        <img v-for="item in data.shopDes" :src="item" alt />
+                        <img v-for="(item,index) in data.shopDes" key="index" :src="item" alt />
                     </li>
                     <li v-show="sortIndex === 1" class="user-comment">
                         <div class="comment-options">
@@ -89,7 +91,7 @@
                             >晒单</i>
                         </div>
                         <div class="comments">
-                            <div v-for="item in comments" class="comment">
+                            <div v-for="(item,index) in comments" key="index" class="comment">
                                 <div class="comment-title">
                                     <p>{{item.buyerName}}</p>
                                     <span>{{item.createTime}}</span>
@@ -97,7 +99,11 @@
                                 <div class="comment-centent">
                                     <p>{{item.postDescribe}}</p>
                                     <div>
-                                        <img v-for="img in item.postImg" :src="img" />
+                                        <img
+                                            v-for="(img, index) in item.postImg"
+                                            :key="index"
+                                            :src="img"
+                                        />
                                     </div>
                                 </div>
                                 <div class="comment-admin">{{item.adminReviews}}</div>
@@ -146,11 +152,12 @@
                         </div>
                     </div>
                     <div class="buy-parmas">
-                        <div class="parmas-chunk" v-for="(item,one) in data.buySelect">
+                        <div class="parmas-chunk" v-for="(item, one) in data.buySelect" key="one">
                             <div class="chunk-title">{{item.name}}</div>
                             <div class="chunk-content">
                                 <i
                                     v-for="(i, two) in item.list"
+                                    key="two"
                                     @click="setSelect({one, two})"
                                     :class="[item.index == two ? 'cut' : '']"
                                 >{{i}}</i>
