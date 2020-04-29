@@ -59,7 +59,10 @@ export default {
         return {
             info: "已注册",
             isDeal: false,
-            user: {},
+            user: {
+                phone: "",
+                password: ""
+            },
             isLink: false
         };
     },
@@ -68,9 +71,13 @@ export default {
     },
     methods: {
         async callRegister() {
+            if (this.user.phone == "" || this.user.password == "") {
+                this.$message("请填写信息后操作！");
+                return;
+            }
             // 协议
             if (!this.isDeal) {
-                this.$message("请阅读协议后再次操作！");
+                this.$message("请阅读协议后操作！");
                 return;
             }
 
@@ -90,7 +97,7 @@ export default {
                 // 注册失败
                 this.isLink = false; // 启用表单
                 this.$message.error(result.msg); // 提示错误信息
-                this.user = {}; // 清空表单
+                this.user = { phone: "", password: "" }; // 清空表单
             }
         }
     }

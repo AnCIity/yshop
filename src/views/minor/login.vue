@@ -49,7 +49,10 @@ export default {
     name: "Login",
     data() {
         return {
-            user: {},
+            user: {
+                phone: "",
+                password: ""
+            },
             isLink: false
         };
     },
@@ -62,6 +65,11 @@ export default {
     methods: {
         ...mapActions("user", ["login"]),
         async callLogin() {
+            if (this.user.phone == "" || this.user.password == "") {
+                this.$message("请填写信息后操作！");
+                return;
+            }
+
             this.isLink = true; // 禁用表单
 
             // 请求数据
@@ -79,7 +87,7 @@ export default {
                 // 登录失败
                 this.isLink = false; // 启用按钮
                 this.$message.error(msg); // 提示错误信息
-                this.user = {}; // 清空表单
+                this.user = { phone: "", password: "" }; // 清空表单
             }
         }
     }
@@ -92,7 +100,8 @@ export default {
     margin 0.6rem
     margin-top 3.2rem
 
-    & div, & p
+    & div,
+    & p
         margin 0.4rem 0
 
     p

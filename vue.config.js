@@ -7,7 +7,6 @@ module.exports = {
             patterns: [path.resolve(__dirname, "./src/stylus/index.styl")]
         }
     },
-    //axios域代理，解决axios跨域问题
     devServer: {
         proxy: {
             "": {

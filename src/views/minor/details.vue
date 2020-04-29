@@ -12,143 +12,154 @@
             <i class="iconfont icon-more"></i>
         </div>
 
-        <!-- 图片展示 -->
-        <div class="show">
-            <div class="show-content">
-                <img
-                    v-for="(img, index) in data.swiperImgArr"
-                    :src="img"
-                    v-show="swiperIndex === index"
-                />
+        <template v-if="data">
+            <!-- 图片展示 -->
+            <div class="show">
+                <div class="show-content">
+                    <img
+                        v-for="(img, index) in data.swiperImgArr"
+                        :src="img"
+                        v-show="swiperIndex === index"
+                    />
+                </div>
+                <div class="show-control">
+                    <i
+                        v-for="(img, index) in data.swiperImgArr"
+                        @click="swiperIndex = index"
+                        :class="{'cut': swiperIndex === index}"
+                    ></i>
+                </div>
             </div>
-            <div class="show-control">
-                <i
-                    v-for="(img, index) in data.swiperImgArr"
-                    @click="swiperIndex = index"
-                    :class="{'cut': swiperIndex === index}"
-                ></i>
-            </div>
-        </div>
 
-        <!-- 商品信息 -->
-        <div class="info">
-            <div class="info-top">
-                <div class="title">
-                    <h2>{{data.name}}</h2>
-                </div>
-                <div class="favor">
-                    <i class="iconfont icon-favor"></i>
-                    <span>收藏</span>
-                </div>
-            </div>
-            <div class="info-bottom">
-                <div class="price">
-                    <strong>￥{{data.reduct_price | fixed}}</strong>
-                    <strong>￥{{data.original_price | fixed}}</strong>
-                </div>
-                <div class="tag">
-                    <div class="tag-top">
-                        <em>{{(data.allowance * 10).toFixed(1)}}折</em>
-                        <em>{{data.isFreeShip ? "包邮" : "不包邮"}}</em>
+            <!-- 商品信息 -->
+            <div class="info">
+                <div class="info-top">
+                    <div class="title">
+                        <h2>{{data.name}}</h2>
                     </div>
-                    <div class="tag-bottom">
-                        <em v-for="describe in data.describe">{{describe}}</em>
+                    <div class="favor">
+                        <i class="iconfont icon-favor"></i>
+                        <span>收藏</span>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- 详情以及口碑 -->
-        <div class="sort">
-            <ul class="sort-title">
-                <li :class="{'cut': sortIndex === 0 }" @click="cutSort(0)">商品详情</li>
-                <li :class="{'cut': sortIndex === 1 }" @click="cutSort(1)">买家口碑</li>
-            </ul>
-            <ul class="sort-content">
-                <li v-show="sortIndex === 0" class="goods-img">
-                    <img v-for="item in data.shopDes" :src="item" alt />
-                </li>
-                <li v-show="sortIndex === 1" class="user-comment">
-                    <div class="comment-options">
-                        <i :class="{'cut': commentIndex === 'all' }" @click="cutComment('all')">全部评价</i>
-                        <i :class="{'cut': commentIndex === 'good' }" @click="cutComment('good')">好评</i>
-                        <i :class="{'cut': commentIndex === 'bad' }" @click="cutComment('bad')">差评</i>
-                        <i
-                            :class="{'cut': commentIndex === 'postForm' }"
-                            @click="cutComment('postForm')"
-                        >晒单</i>
+                <div class="info-bottom">
+                    <div class="price">
+                        <strong>￥{{data.reduct_price | fixed}}</strong>
+                        <strong>￥{{data.original_price | fixed}}</strong>
                     </div>
-                    <div class="comments">
-                        <div v-for="item in comments" class="comment">
-                            <div class="comment-title">
-                                <p>{{item.buyerName}}</p>
-                                <span>{{item.createTime}}</span>
-                            </div>
-                            <div class="comment-centent">
-                                <p>{{item.postDescribe}}</p>
-                                <div>
-                                    <img v-for="img in item.postImg" :src="img" />
-                                </div>
-                            </div>
-                            <div class="comment-admin">{{item.adminReviews}}</div>
+                    <div class="tag">
+                        <div class="tag-top">
+                            <em>{{(data.allowance * 10).toFixed(1)}}折</em>
+                            <em>{{data.isFreeShip ? "包邮" : "不包邮"}}</em>
+                        </div>
+                        <div class="tag-bottom">
+                            <em v-for="describe in data.describe">{{describe}}</em>
                         </div>
                     </div>
-                </li>
-            </ul>
-        </div>
-
-        <!-- 底部 -->
-        <div class="bottom">
-            <p>
-                总价：
-                <span>￥0.00</span>
-            </p>
-            <div class="buttom-btn" @click="add">加入购物车</div>
-            <div class="buttom-btn" @click="showPopup = true">立即购买</div>
-        </div>
-
-        <!-- 弹出层 -->
-        <div class="popup" v-show="showPopup">
-            <div class="buy">
-                <div class="buy-info">
-                    <div class="buy-info-top">
-                        <img :src="data.swiperImgArr && data.swiperImgArr[0]" />
-                        <div>
-                            <em>￥{{data.reduct_price | fixed}}</em>
-                            <p>
-                                库存
-                                <span>{{data.total}}</span>
-                                件
-                            </p>
-                            <p>请选择商品属性</p>
-                        </div>
-                        <i class="close" @click="showPopup = false">×</i>
-                    </div>
-                    <div class="buy-info-bottom">
-                        <p>购买数量</p>
-                        <el-input-number
-                            class="buy-info-num"
-                            v-model="num"
-                            :min="1"
-                            :max="999"
-                            size="small"
-                        ></el-input-number>
-                    </div>
                 </div>
-                <div class="buy-parmas">
-                    <div class="parmas-chunk" v-for="(item,one) in data.buySelect">
-                        <div class="chunk-title">{{item.name}}</div>
-                        <div class="chunk-content">
+            </div>
+
+            <!-- 详情以及口碑 -->
+            <div class="sort">
+                <ul class="sort-title">
+                    <li :class="{'cut': sortIndex === 0 }" @click="cutSort(0)">商品详情</li>
+                    <li :class="{'cut': sortIndex === 1 }" @click="cutSort(1)">买家口碑</li>
+                </ul>
+                <ul class="sort-content">
+                    <li v-show="sortIndex === 0" class="goods-img">
+                        <img v-for="item in data.shopDes" :src="item" alt />
+                    </li>
+                    <li v-show="sortIndex === 1" class="user-comment">
+                        <div class="comment-options">
                             <i
-                                v-for="(i, two) in item.list"
-                                @click="setSelect({one, two})"
-                                :class="[item.index == two ? 'cut' : '']"
-                            >{{i}}</i>
+                                :class="{'cut': commentIndex === 'all' }"
+                                @click="cutComment('all')"
+                            >全部评价</i>
+                            <i
+                                :class="{'cut': commentIndex === 'good' }"
+                                @click="cutComment('good')"
+                            >好评</i>
+                            <i
+                                :class="{'cut': commentIndex === 'bad' }"
+                                @click="cutComment('bad')"
+                            >差评</i>
+                            <i
+                                :class="{'cut': commentIndex === 'postForm' }"
+                                @click="cutComment('postForm')"
+                            >晒单</i>
+                        </div>
+                        <div class="comments">
+                            <div v-for="item in comments" class="comment">
+                                <div class="comment-title">
+                                    <p>{{item.buyerName}}</p>
+                                    <span>{{item.createTime}}</span>
+                                </div>
+                                <div class="comment-centent">
+                                    <p>{{item.postDescribe}}</p>
+                                    <div>
+                                        <img v-for="img in item.postImg" :src="img" />
+                                    </div>
+                                </div>
+                                <div class="comment-admin">{{item.adminReviews}}</div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 底部 -->
+            <div class="bottom">
+                <p>
+                    总价：
+                    <span>￥0.00</span>
+                </p>
+                <div class="buttom-btn" @click="add">加入购物车</div>
+                <div class="buttom-btn" @click="showPopup = true">立即购买</div>
+            </div>
+
+            <!-- 弹出层 -->
+            <div class="popup" v-show="showPopup">
+                <div class="buy">
+                    <div class="buy-info">
+                        <div class="buy-info-top">
+                            <img :src="data.swiperImgArr && data.swiperImgArr[0]" />
+                            <div>
+                                <em>￥{{data.reduct_price | fixed}}</em>
+                                <p>
+                                    库存
+                                    <span>{{data.total}}</span>
+                                    件
+                                </p>
+                                <p>请选择商品属性</p>
+                            </div>
+                            <i class="close" @click="showPopup = false">×</i>
+                        </div>
+                        <div class="buy-info-bottom">
+                            <p>购买数量</p>
+                            <el-input-number
+                                class="buy-info-num"
+                                v-model="num"
+                                :min="1"
+                                :max="999"
+                                size="small"
+                            ></el-input-number>
+                        </div>
+                    </div>
+                    <div class="buy-parmas">
+                        <div class="parmas-chunk" v-for="(item,one) in data.buySelect">
+                            <div class="chunk-title">{{item.name}}</div>
+                            <div class="chunk-content">
+                                <i
+                                    v-for="(i, two) in item.list"
+                                    @click="setSelect({one, two})"
+                                    :class="[item.index == two ? 'cut' : '']"
+                                >{{i}}</i>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </template>
     </div>
 </template>
 

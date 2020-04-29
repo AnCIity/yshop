@@ -24,8 +24,8 @@ const actions = {
     // 请求详情数据
     getData({ commit, state }, id) {
         // 若数据重复 无需请求
-        if (state.data.pid == id) return;
-        state.data = null;
+        if (state.data && state.data.pid == id) return;
+        commit("setData", null);
 
         requestDetails(id).then(res => {
             commit("setData", res.data.data);
