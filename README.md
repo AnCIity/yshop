@@ -1,5 +1,7 @@
 # yshop
 
+TODO: 将element框架替换为Vant
+
 ## Project setup
 ```
 npm install
@@ -17,3 +19,4 @@ npm run build
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
