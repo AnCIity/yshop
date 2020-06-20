@@ -1,6 +1,6 @@
 # yshop
 
-TODO: 将element框架替换为Vant
+TODO: 将 element 框架替换为 Vant
 
 ## Project setup
 ```
